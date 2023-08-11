@@ -4,7 +4,7 @@ Using sklearn's open source breast cancer dataset for datascience with Pytorch i
     from sklearn.datasets import load_breast_cancer
     data = load_breast_cancer()
 
-and splitting the training and testing numpy inputs matrix and target output labers:
+and splitting the training and testing numpy inputs matrix and target output labels:
 
     x = data.data
     y = data.target
@@ -45,9 +45,33 @@ Pytorch provides an optimal environment for constructing neural network weights 
             w, _ = self.get_weights()
             max_contribution_per_feature = np.reshape(np.max(w, axis=1), [w.shape[0]])
             return np.argsort(max_contribution_per_feature)[-top_num_features:]
-
-
-
+    
+    model = Model(_x_train.shape[1], hidden_dimensions=30, output_labels=_y_train, feature_names=data['feature_names'])
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    loss_fn = nn.CrossEntropyLoss()
+    
+    training_iterations  = 1000
+    x_train = Variable(torch.from_numpy(_x_train)).float()
+    y_train = Variable(torch.from_numpy(_y_train)).long()
+    x_test = Variable(torch.from_numpy(_x_test)).float()
+    y_test = Variable(torch.from_numpy(_y_test)).long()
+    
+    loss_list = np.zeros(training_iterations).astype(float)
+    accuracy_list = np.zeros(training_iterations).astype(float)
+    
+    for _iteration in range(training_iterations):
+        y_pred = model(x_train)
+        loss = loss_fn(y_pred, y_train)
+        loss_list[_iteration] = loss.item()
+    
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+    
+        with torch.no_grad():
+            y_pred = model(x_test)
+            correct = (torch.argmax(y_pred, dim=1) == y_test).type(torch.FloatTensor)
+            accuracy_list[_iteration] = correct.mean()
 
 
 Two tensors which we'll call input_layer and output_layer, both of which also compose the hidden units as their second dimension which in this example we'll use size 30:
