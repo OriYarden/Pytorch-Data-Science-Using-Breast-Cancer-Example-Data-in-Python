@@ -92,7 +92,7 @@ with the most contributing feature being "mean concave points":
 
 ![image](https://github.com/OriYarden/Pytorch-Data-Science-Using-Breast-Cancer-Example-Data-in-Python/assets/137197657/ba1c9e83-487c-4a80-b3cb-bf76537d9e11)
 
-Now this isn't a very large dataset and we can't draw direct conclusions just because the weights representing the input features that had the highest values in the input_layer tensor; further research must be conducted to uncover potential links between features such as "mean concave points" and breast cancer diagnonses.
+Now this isn't a very large dataset and we can't draw direct conclusions just because the weights representing the input features that had the highest values in the input_layer tensor; further research must be conducted to uncover potential links between features such as "mean concave points" and breast cancer diagnoses.
 
 Though if we plot the patients diagnosed with breast cancer (Red) and patients without breast cancer (Blue) for the 30 input features:
 
